@@ -1,0 +1,50 @@
+# Projeto SQL 4: Análise de Tendências de Saúde Pública (SQL Server)
+
+## 🎯 Objetivo
+
+Demonstrar proficiência em um ambiente de banco de dados corporativo (SQL Server) e o domínio de funções avançadas de análise temporal (Window Functions). O projeto foca em transformar dados diários da COVID-19 em **tendências** e **indicadores de aceleração**.
+
+## ⚙️ Ferramentas
+
+* **Ambiente:** SQL Server Management Studio (SSMS)
+* **Dataset:** Dados Globais Diários da COVID-19 (Our World in Data - OWID).
+
+---
+
+## 🔍 Análise Intermediária (O Uso de Window Functions)
+
+A parte mais crucial do projeto foi aplicar as Funções de Janela (`OVER`) para ir além da simples soma, criando métricas que geram valor para a tomada de decisão.
+
+### CI 1: Média Móvel de 7 Dias (Para Suavizar Flutuações)
+
+A Média Móvel é o padrão para relatórios de tendência. Ela remove o "ruído" dos dados diários, mostrando a verdadeira inclinação da pandemia.
+
+* **O que foi feito:** Calculada a média de novos casos dos **7 dias anteriores** (`ROWS BETWEEN 6 PRECEDING AND CURRENT ROW`) para o Brasil.
+* **Habilidade:** Demonstra o domínio de `AVG() OVER` para análise de tendência.
+
+*(Resultado: O gráfico da Média Móvel é muito mais suave, confirmando a tendência).*
+
+### CI 2: Total Acumulado (Para Medir o Impacto Histórico)
+
+O Total Acumulado (ou *Running Total*) mostra o crescimento total da pandemia dia após dia.
+
+* **O que foi feito:** Calculada a soma acumulada (`SUM() OVER`) de todos os novos casos no Brasil.
+* **Habilidade:** Demonstra o uso de `SUM() OVER (ORDER BY date)` para cálculos sequenciais, essenciais em finanças e logística.
+
+### CI 3: Variação Diária (Medindo a Aceleração)
+
+Esta é a análise mais poderosa. Ela mede a aceleração ou desaceleração da pandemia ao comparar o dia de hoje com o dia anterior.
+
+* **O que foi feito:** Utilizada a função `LAG()` para buscar o número de casos do dia anterior e calcular a diferença: **Casos (Hoje) - Casos (Ontem)**.
+* **Habilidade:** Demonstra `LAG()`, uma função avançada vital para análise de séries temporais.
+* **Exemplo de Insight:** Um resultado de **-5.000** significa que o número de novos casos caiu em 5.000 em relação ao dia anterior (desaceleração). Um resultado de **+3.000** significa aceleração.
+
+---
+
+## 📊 Conclusão e Próximos Passos
+
+O projeto demonstrou que, apesar dos desafios de importação (como a necessidade de usar `CAST` devido à inconsistência de dados do CSV), o ambiente SQL Server foi dominado, permitindo o uso eficiente de:
+
+1.  **Comandos Essenciais:** `SELECT`, `WHERE`, `COUNT`, `GROUP BY` (realizados nas 5 consultas básicas).
+2.  **Funções de Janela Avançadas:** `AVG() OVER`, `SUM() OVER`, e `LAG() OVER` para análise de tendências.
+
